@@ -81,15 +81,13 @@ function tailwindCompletions(): vscode.Disposable {
 async function indexClasses() {
   try {
     const folders = vscode.workspace.workspaceFolders;
-    if (folders === null || folders?.length === 0) {
-      return [];
-    }
-
-    if (!folders) {
+    if (!folders || folders?.length === 0) {
       return {};
     }
 
-    classes = await readFile(`${folders[0].uri.fsPath}\\${classFile}`);
+    const slash = process.platform === "win32" ? "\\" : "/";
+
+    classes = await readFile(`${folders[0].uri.fsPath}${slash}${classFile}`);
     classDocumentations = { ...classes };
     Object.keys(classDocumentations).forEach((twClass) => {
       const _class = classes[twClass];
