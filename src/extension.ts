@@ -9,6 +9,9 @@ const FILE_SELECTOR = [
   },
 ];
 
+// const TAILWIND_REGEX = new RegExp("tailwind\\('(.*?)'\\)");
+const TAILWIND_REGEX = new RegExp("'(.*?)'");
+
 let classes: any = {};
 let classDocumentations: any = {};
 let classFile = "styles.json";
@@ -34,9 +37,8 @@ function tailwindCompletions(): vscode.Disposable {
       if (!classes || classes === {}) {
         return [];
       } else {
-        const regex = new RegExp("tailwind\\('(.*?)'\\)");
         const { text } = document.lineAt(position.line);
-        const matches = text.match(regex);
+        const matches = text.match(TAILWIND_REGEX);
 
         if (!matches) {
           return [];
